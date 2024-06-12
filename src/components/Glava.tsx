@@ -1,14 +1,9 @@
 "use client";
 import { useState } from "react";
 import { Button, Card, Divider, TextField } from "@mui/material";
-import { PrismaClient } from '@prisma/client';
-const prisma = new PrismaClient();
-interface Narocila {
-    id_narocila: number;
-    id_natakarja: number | null;
-    items: string;
-    totalPrice: number;
-}
+
+
+
 
 type MenuItem = {
     id: number;
@@ -49,7 +44,7 @@ export default function Component() {
         if (existingItem) {
             updatedOrder = order.map((orderItem) =>
                 orderItem.id === item.id
-                    ? { ...orderItem, quantity: (orderItem.quantity || 0) + 1 }
+                    ? { ...orderItem, quantity: (orderItem.quantity ?? 0) + 1 }
                     : orderItem
             );
         } else {
@@ -69,7 +64,7 @@ export default function Component() {
         } else {
             updatedOrder = order.map((orderItem) =>
                 orderItem.id === item.id
-                    ? { ...orderItem, quantity: (orderItem.quantity || 0) - 1 }
+                    ? { ...orderItem, quantity: (orderItem.quantity ?? 0) - 1 }
                     : orderItem
             );
         }
@@ -134,7 +129,7 @@ export default function Component() {
                                 className="grid grid-cols-[2fr_1fr_1fr_1fr_auto] items-center gap-4"
                             >
                                 <div>{item.name}</div>
-                                <div>${(item.price * (item.quantity || 0)).toFixed(2)}</div>
+                                <div>${(item.price * (item.quantity ?? 0)).toFixed(2)}</div>
                                 <Button
                                     variant="outlined"
                                     size="medium"
@@ -199,7 +194,7 @@ export default function Component() {
                             className="grid grid-cols-[2fr_1fr_1fr_1fr_auto] items-center gap-4"
                         >
                             <div>{item.name}</div>
-                            <div>${(item.price * (item.quantity || 0)).toFixed(2)}</div>
+                            <div>${(item.price * (item.quantity ?? 0)).toFixed(2)}</div>
                         </div>
                     ))}
                     <Divider />
@@ -209,7 +204,7 @@ export default function Component() {
                         </div>
                         <div>
                             <span className="text-base font-medium">
-                                ${(completedOrder.reduce((acc, item) => acc + item.price * (item.quantity || 0), 0)).toFixed(2)}
+                                ${(completedOrder.reduce((acc, item) => acc + item.price * (item.quantity ?? 0), 0)).toFixed(2)}
                             </span>
                         </div>
                     </div>
@@ -219,7 +214,7 @@ export default function Component() {
     );
 }
 
-function MinusIcon(props: any) {
+function MinusIcon(props: React.SVGProps<SVGSVGElement>) {
     return (
         <svg
             {...props}
@@ -238,7 +233,7 @@ function MinusIcon(props: any) {
     );
 }
 
-function PlusIcon(props: any) {
+function PlusIcon(props: React.SVGProps<SVGSVGElement>) {
     return (
         <svg
             {...props}
