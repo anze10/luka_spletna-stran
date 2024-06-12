@@ -1,6 +1,14 @@
 "use client";
 import { useState } from "react";
 import { Button, Card, Divider, TextField } from "@mui/material";
+import { PrismaClient } from '@prisma/client';
+const prisma = new PrismaClient();
+interface Narocila {
+    id_narocila: number;
+    id_natakarja: number | null;
+    items: string;
+    totalPrice: number;
+}
 
 type MenuItem = {
     id: number;
@@ -30,6 +38,9 @@ export default function Component() {
     const [completedOrder, setCompletedOrder] = useState<MenuItem[]>([]);
     const [payment, setPayment] = useState<string | number>("");
     const [change, setChange] = useState(0);
+
+
+
 
     const addToOrder = (item: MenuItem) => {
         const existingItem = order.find((orderItem) => orderItem.id === item.id);
@@ -67,13 +78,23 @@ export default function Component() {
         setTotalPrice(totalPrice - item.price);
     };
 
-    const completeOrder = () => {
+    // const completeOrder = () => {
+    //     setCompletedOrder(order);
+    //     setOrder([]);
+    //     setTotalPrice(0);
+    //     setChange(0);
+    //     setPayment("");
+    // };
+    const completeOrder = async () => {
+
         setCompletedOrder(order);
         setOrder([]);
         setTotalPrice(0);
         setChange(0);
-        setPayment("");
+        setPayment('');
+
     };
+
 
     const handlePaymentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const paymentValue = parseFloat(e.target.value);
