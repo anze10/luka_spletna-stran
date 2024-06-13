@@ -7,8 +7,9 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model meteoriti {
-  id_meteorit Int      @id @default(autoincrement())
-  trajanje    Decimal  @db.Decimal(10, 2)
-  cas         DateTime
+model Narocila {
+  id_narocila  Int    @id @default(autoincrement())
+  id_natakarja Int?
+  items        String @db.VarChar(255)
+  totalPrice   Float  @db.Float
 }

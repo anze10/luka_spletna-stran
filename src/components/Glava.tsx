@@ -1,9 +1,7 @@
-"use client";
-import { useState } from "react";
-import { Button, Card, Divider, TextField } from "@mui/material";
-
-
-
+"use client"
+import React, { useState } from 'react';
+import { Button, Card, Divider, TextField } from '@mui/material';
+import { test } from 'src/server/posli';  // Ensure this path is correct
 
 type MenuItem = {
     id: number;
@@ -13,29 +11,26 @@ type MenuItem = {
 };
 
 const menuItems: MenuItem[] = [
-    { id: 1, name: "PIVO 0,3L", price: 3.0 },
-    { id: 2, name: "ŠPRICAR 0,2L", price: 2.5 },
-    { id: 3, name: "VINO 0,1L", price: 2.0 },
-    { id: 4, name: "VINO 1L", price: 10.0 },
-    { id: 5, name: "RADENSKA 1L", price: 5.0 },
-    { id: 6, name: "JAGERMAISTER 0,03L", price: 3.0 },
-    { id: 7, name: "GIN-TONIC", price: 4.0 },
-    { id: 8, name: "VODA NAVADNA 0,5L", price: 2.5 },
-    { id: 9, name: "VODA Z OKUSOM 0,5L", price: 2.5 },
-    { id: 10, name: "COCA COLA 0,5L", price: 2.5 },
-    { id: 11, name: "LEDENI ČAJ BRESKEV 0,5L", price: 2.5 },
-    { id: 12, name: "BOROVNIČKE 0,03L", price: 3.0 },
+    { id: 1, name: 'PIVO 0,3L', price: 3.0 },
+    { id: 2, name: 'ŠPRICAR 0,2L', price: 2.5 },
+    { id: 3, name: 'VINO 0,1L', price: 2.0 },
+    { id: 4, name: 'VINO 1L', price: 10.0 },
+    { id: 5, name: 'RADENSKA 1L', price: 5.0 },
+    { id: 6, name: 'JAGERMAISTER 0,03L', price: 3.0 },
+    { id: 7, name: 'GIN-TONIC', price: 4.0 },
+    { id: 8, name: 'VODA NAVADNA 0,5L', price: 2.5 },
+    { id: 9, name: 'VODA Z OKUSOM 0,5L', price: 2.5 },
+    { id: 10, name: 'COCA COLA 0,5L', price: 2.5 },
+    { id: 11, name: 'LEDENI ČAJ BRESKEV 0,5L', price: 2.5 },
+    { id: 12, name: 'BOROVNIČKE 0,03L', price: 3.0 },
 ];
 
 export default function Component() {
     const [order, setOrder] = useState<MenuItem[]>([]);
     const [totalPrice, setTotalPrice] = useState(0);
     const [completedOrder, setCompletedOrder] = useState<MenuItem[]>([]);
-    const [payment, setPayment] = useState<string | number>("");
+    const [payment, setPayment] = useState<string | number>('');
     const [change, setChange] = useState(0);
-
-
-
 
     const addToOrder = (item: MenuItem) => {
         const existingItem = order.find((orderItem) => orderItem.id === item.id);
@@ -73,23 +68,18 @@ export default function Component() {
         setTotalPrice(totalPrice - item.price);
     };
 
-    // const completeOrder = () => {
-    //     setCompletedOrder(order);
-    //     setOrder([]);
-    //     setTotalPrice(0);
-    //     setChange(0);
-    //     setPayment("");
-    // };
     const completeOrder = async () => {
+        const orderString = order.map(item => `${item.name}(${item.quantity})`).join('_');
+        const total = Number(totalPrice);
+
+        await test(orderString, total);
 
         setCompletedOrder(order);
         setOrder([]);
         setTotalPrice(0);
         setChange(0);
         setPayment('');
-
     };
-
 
     const handlePaymentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const paymentValue = parseFloat(e.target.value);
@@ -97,7 +87,7 @@ export default function Component() {
             setPayment(paymentValue);
             setChange(paymentValue - totalPrice);
         } else {
-            setPayment("");
+            setPayment('');
             setChange(0);
         }
     };
@@ -115,7 +105,7 @@ export default function Component() {
                                 onClick={() => addToOrder(item)}
                             >
                                 <div>{item.name}</div>
-                                <div>${item.price.toFixed(2)}</div>
+                                <div>€{item.price.toFixed(2)}</div>
                             </Card>
                         ))}
                     </div>
@@ -129,7 +119,7 @@ export default function Component() {
                                 className="grid grid-cols-[2fr_1fr_1fr_1fr_auto] items-center gap-4"
                             >
                                 <div>{item.name}</div>
-                                <div>${(item.price * (item.quantity ?? 0)).toFixed(2)}</div>
+                                <div>€{(item.price * (item.quantity ?? 0)).toFixed(2)}</div>
                                 <Button
                                     variant="outlined"
                                     size="medium"
@@ -154,7 +144,7 @@ export default function Component() {
                             </div>
                             <div>
                                 <span className="text-base font-medium">
-                                    ${totalPrice.toFixed(2)}
+                                    €{totalPrice.toFixed(2)}
                                 </span>
                             </div>
                         </div>
@@ -171,7 +161,7 @@ export default function Component() {
                             </div>
                             <div>
                                 <span className="text-base font-medium">
-                                    ${change >= 0 ? change.toFixed(2) : 0}
+                                    €{change >= 0 ? change.toFixed(2) : 0}
                                 </span>
                             </div>
                         </div>
@@ -194,7 +184,8 @@ export default function Component() {
                             className="grid grid-cols-[2fr_1fr_1fr_1fr_auto] items-center gap-4"
                         >
                             <div>{item.name}</div>
-                            <div>${(item.price * (item.quantity ?? 0)).toFixed(2)}</div>
+                            <div>€{(item.price * (item.quantity ?? 0)).toFixed(2)}</div>
+                            <div>Količina: {item.quantity}</div>
                         </div>
                     ))}
                     <Divider />
@@ -204,7 +195,7 @@ export default function Component() {
                         </div>
                         <div>
                             <span className="text-base font-medium">
-                                ${(completedOrder.reduce((acc, item) => acc + item.price * (item.quantity ?? 0), 0)).toFixed(2)}
+                                €{completedOrder.reduce((acc, item) => acc + item.price * (item.quantity ?? 0), 0).toFixed(2)}
                             </span>
                         </div>
                     </div>
