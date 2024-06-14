@@ -72,7 +72,7 @@ export default function Component() {
         const orderString = order.map(item => `${item.name}(${item.quantity})`).join('_');
         const total = Number(totalPrice);
 
-        await test(orderString, total);
+        //await test(orderString, total);
 
         setCompletedOrder(order);
         setOrder([]);
