@@ -12,18 +12,18 @@ type MenuItem = {
 
 const menuItems: MenuItem[] = [
     { id: 1, name: 'PIVO 0,3L', price: 3.0 },
-    { id: 2, name: 'ŠPRICAR 0,2L', price: 2.5 },
-    { id: 3, name: 'VINO 0,1L', price: 2.0 },
+    { id: 2, name: 'ŠPRICAR 0,2L', price: 2.0 },
+    { id: 3, name: 'VINO 0,1L', price: 1.5 },
     { id: 4, name: 'VINO 1L', price: 10.0 },
     { id: 5, name: 'RADENSKA 1L', price: 5.0 },
     { id: 6, name: 'JAGERMAISTER 0,03L', price: 3.0 },
-    { id: 7, name: 'GIN-TONIC', price: 4.0 },
+    { id: 7, name: 'BOROVNIČKE 0,03L', price: 3.0 },
     { id: 8, name: 'VODA NAVADNA 0,5L', price: 2.5 },
     { id: 9, name: 'VODA Z OKUSOM 0,5L', price: 2.5 },
-    { id: 10, name: 'COCA COLA 0,5L', price: 2.5 },
-    { id: 11, name: 'LEDENI ČAJ BRESKEV 0,5L', price: 2.5 },
-    { id: 12, name: 'BOROVNIČKE 0,03L', price: 3.0 },
+    { id: 10, name: 'PEPSI 0,5L', price: 2.5 },
+    { id: 11, name: 'LEDENI ČAJ 0,5L', price: 2.5 },
 ];
+
 
 export default function Component() {
     const [order, setOrder] = useState<MenuItem[]>([]);
